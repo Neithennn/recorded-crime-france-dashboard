@@ -118,5 +118,6 @@ The app opens on http://localhost:8501.
 
 ## Links
 
+- Deployed app: https://recorded-crime-france.streamlit.app
+- GitHub repository: https://github.com/Neithennn/recorded-crime-france-dashboard
 - Demo video: *to add*
-- Deployed app: *to add*
