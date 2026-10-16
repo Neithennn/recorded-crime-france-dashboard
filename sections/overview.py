@@ -4,6 +4,31 @@ from utils.prep import by_department, change_by_indicator, filter_data, index_by
 from utils.viz import change_chart, line_chart, scissor_chart
 
 
+def kpi_header(df, indicator, years, regions):
+    start, end = years
+    label = rate_label(indicator)
+    data = filter_data(df, years, regions, indicator)
+    ts = timeseries(data)
+    first = ts.iloc[0]
+    last = ts.iloc[-1]
+    change = (last["count"] / first["count"] - 1) * 100 if first["count"] > 0 else 0
+    top = by_department(data, end).sort_values("rate", ascending=False).iloc[0]
+    scope = ", ".join(regions) if regions else "all of France"
+
+    st.caption(f"Your selection: {indicator} · {start}–{end} · {scope}")
+    c1, c2, c3 = st.columns(3)
+    c1.metric(f"Recorded cases in {end}", f"{last['count']:,.0f}", f"{change:+.1f}% vs {start}", delta_color="inverse")
+    c2.metric(
+        f"Rate in {end}",
+        f"{last['rate']:.2f}",
+        f"{last['rate'] - first['rate']:+.2f} vs {start}",
+        delta_color="inverse",
+        help=f"Recorded cases {label}",
+    )
+    c3.metric(f"Highest rate in {end}", top["department"], f"{top['rate']:.2f}", delta_color="off", help=f"Rate {label}")
+    st.divider()
+
+
 def show(df, indicator, years, regions):
     start, end = years
     all_crimes = filter_data(df, years, regions)
@@ -43,30 +68,17 @@ def show(df, indicator, years, regions):
     )
 
     label = rate_label(indicator)
-    data = filter_data(df, years, regions, indicator)
-    ts = timeseries(data)
+    ts = timeseries(filter_data(df, years, regions, indicator))
     first = ts.iloc[0]
     last = ts.iloc[-1]
     change = (last["count"] / first["count"] - 1) * 100 if first["count"] > 0 else 0
     peak = ts.loc[ts["rate"].idxmax(), "year"]
-    top = by_department(data, end).sort_values("rate", ascending=False).iloc[0]
 
     st.subheader(f"Zoom on one crime: {indicator}")
     st.markdown(
         f"**{indicator}: {change:+.0f}% recorded cases between {start} and {end}, the highest rate is reached in {peak}.** "
         "Choose another crime in the sidebar to follow its own story."
     )
-
-    c1, c2, c3 = st.columns(3)
-    c1.metric(f"Recorded cases in {end}", f"{last['count']:,.0f}", f"{change:+.1f}% vs {start}", delta_color="inverse")
-    c2.metric(
-        f"Rate in {end}",
-        f"{last['rate']:.2f}",
-        f"{last['rate'] - first['rate']:+.2f} vs {start}",
-        delta_color="inverse",
-        help=f"Recorded cases {label}",
-    )
-    c3.metric(f"Highest rate in {end}", top["department"], f"{top['rate']:.2f}", delta_color="off", help=f"Rate {label}")
 
     line_chart(
         ts,

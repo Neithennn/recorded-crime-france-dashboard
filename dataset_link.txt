@@ -11,5 +11,6 @@ https://static.data.gouv.fr/resources/bases-statistiques-communale-departemental
 
 Department boundaries for the map (GeoJSON):
 https://github.com/gregoiredavid/france-geojson (departements-version-simplifiee.geojson)
+Built from IGN Admin Express, Licence Ouverte
 
 A copy of both files is in the data/ folder.

@@ -34,7 +34,9 @@ def show(df, quality):
         "- **Categories.** The category lines of chapter 1 add indicators with different units (victims, offences, vehicles), "
         "they only show trends, not exact totals.\n"
         "- **Small departments.** Rare crimes (homicides) give unstable rates when the population is small.\n"
-        "- **Map.** The GeoJSON only contains metropolitan France, overseas departments are only shown in the bar charts."
+        "- **Map.** The GeoJSON only contains metropolitan France, overseas departments are only shown in the bar charts.\n"
+        "- **Ethics.** The data is aggregated by department, so no person can be identified. A high rate does not mean "
+        "that a territory is \"dangerous\": it also depends on how often victims report and on police activity."
     )
 
     start, end = int(df["year"].min()), int(df["year"].max())

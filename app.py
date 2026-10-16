@@ -24,10 +24,22 @@ indicators = sorted(df["indicator"].unique())
 
 with st.sidebar:
     st.header("Filters")
-    indicator = st.selectbox("Indicator", indicators, index=indicators.index("Violences sexuelles"))
-    years = st.slider("Year range", int(df["year"].min()), int(df["year"].max()), (int(df["year"].min()), int(df["year"].max())))
+    indicator = st.selectbox(
+        "Indicator",
+        indicators,
+        index=indicators.index("Violences sexuelles"),
+        help="Type of crime. Each indicator has its own unit (victims, offences, vehicles, people charged).",
+    )
+    years = st.slider(
+        "Year range",
+        int(df["year"].min()),
+        int(df["year"].max()),
+        (int(df["year"].min()), int(df["year"].max())),
+        help="Changes are computed between the first and the last year of the range.",
+    )
     regions = st.multiselect("Region", sorted(df["region"].unique()), help="Leave empty to keep all of France.")
 
+overview.kpi_header(df, indicator, years, regions)
 intro.show(df)
 overview.show(df, indicator, years, regions)
 deep_dives.show(df, geo, indicator, years, regions)

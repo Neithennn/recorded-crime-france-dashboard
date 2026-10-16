@@ -38,7 +38,8 @@ Each chapter ends with a short transition question that leads to the next one. T
 - **Portal:** [data.gouv.fr](https://www.data.gouv.fr/datasets/bases-statistiques-communale-departementale-et-regionale-de-la-delinquance-enregistree-par-la-police-et-la-gendarmerie-nationales)
 - **File used:** departmental file (DEP), July 2026 edition, years 2016–2025, 101 departments, 18 indicators
 - **License:** Licence Ouverte / Open Licence v2.0
-- **Map:** department boundaries from [france-geojson](https://github.com/gregoiredavid/france-geojson)
+- **Map:** department boundaries from [france-geojson](https://github.com/gregoiredavid/france-geojson), built from IGN Admin Express (Licence Ouverte)
+- **Code:** written for this course project, free to reuse for teaching
 
 All links are in `dataset_link.txt`. A copy of the files is in `data/`. If the folder is empty, the app downloads the files automatically the first time (`fetch_and_cache()` in `utils/io.py`).
 
@@ -65,7 +66,8 @@ All links are in `dataset_link.txt`. A copy of the files is in `data/`. If the f
 ## App features
 
 - **Sidebar filters:** indicator, year range, regions.
-- **KPIs** linked to the filters: recorded cases, rate per 1,000, department with the highest rate.
+- **KPI header** under the title, linked to the filters: recorded cases, rate per 1,000, department with the highest rate.
+- **Help texts** on the filters and KPIs to explain units and definitions.
 - **Interactive charts with tooltips (Plotly):** scissor chart by category, bar chart of changes by indicator, line chart of the selected crime, bar chart by region, map by department, top / bottom 10 departments.
 - **Annotations:** dotted lines for #MeToo (Oct 2017), the Grenelle on domestic violence (Sep 2019), the first lockdown (Mar 2020) and the fixed fine for drug use (Sep 2020), reference line at 100.
 - **Data-driven headlines:** the bold sentences of each chapter are computed from the filtered data.
@@ -103,7 +105,7 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-The app opens on http://localhost:8501.
+The app opens on http://localhost:8501. No sampling or randomness is used, so the results are always the same and no seed file is needed.
 
 **Deployment:** push the folder to a GitHub repository, then on [Streamlit Community Cloud](https://share.streamlit.io) choose the repository and `app.py` as the main file.
 
@@ -123,6 +125,12 @@ The app opens on http://localhost:8501.
 - Category lines add indicators with different units (victims, offences, vehicles), they only show trends.
 - Rates of rare crimes (homicides) are unstable in small departments.
 - The map only shows metropolitan France, overseas departments are in the bar charts.
+
+## Ethics
+
+- The data is aggregated by department: no personal data, no risk of re-identification.
+- A high rate does not mean a territory is "dangerous": it also depends on reporting and police activity.
+- No causal claims: events on the charts (#MeToo, Grenelle, lockdown, drug fines) are context, not proven causes.
 
 ## Links
 
