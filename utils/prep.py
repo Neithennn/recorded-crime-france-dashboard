@@ -159,3 +159,10 @@ def change_by_indicator(df, start_year, end_year):
     out = out[out[start_year] > 0]
     out["change"] = (out[end_year] / out[start_year] - 1) * 100
     return out.sort_values("change")
+
+
+def index_by_category(df, start_year):
+    out = df.groupby(["category", "year"], as_index=False)["count"].sum()
+    start = out[out["year"] == start_year].set_index("category")["count"]
+    out["index"] = out["count"] / out["category"].map(start) * 100
+    return out

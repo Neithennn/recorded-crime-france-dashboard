@@ -15,7 +15,7 @@ def get_data():
     return df_raw, tables, geo
 
 
-st.title("Data Storytelling: Recorded Crime in France, 2016–2025")
+st.title("Fewer Thefts, More Violence: How Crime Changed in France (2016–2025)")
 st.caption(f"Source: {SOURCE} — {PORTAL} — {LICENSE}")
 
 raw, tables, geo = get_data()
@@ -28,7 +28,7 @@ with st.sidebar:
     years = st.slider("Year range", int(df["year"].min()), int(df["year"].max()), (int(df["year"].min()), int(df["year"].max())))
     regions = st.multiselect("Region", sorted(df["region"].unique()), help="Leave empty to keep all of France.")
 
-intro.show()
+intro.show(df)
 overview.show(df, indicator, years, regions)
 deep_dives.show(df, geo, indicator, years, regions)
-conclusions.show(tables["quality"])
+conclusions.show(df, tables["quality"])

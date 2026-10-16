@@ -1,6 +1,6 @@
 import streamlit as st
 
-from utils.prep import by_department, by_region, filter_data, rate_label
+from utils.prep import by_department, by_region, filter_data, rate_label, timeseries
 from utils.viz import bar_chart, map_chart
 
 
@@ -9,13 +9,22 @@ def show(df, geo, indicator, years, regions):
     label = rate_label(indicator)
     data = filter_data(df, years, regions, indicator)
     departments = by_department(data, end)
+    region_rates = by_region(data, end)
+    top_region = region_rates.loc[region_rates["rate"].idxmax()]
+    france = timeseries(filter_data(df, years, [], indicator))
+    france_rate = france.loc[france["year"] == end, "rate"].iloc[0]
+    top = departments.loc[departments["rate"].idxmax()]
+    bottom = departments.loc[departments["rate"].idxmin()]
 
-    st.header("2. Deep dive: where?")
-    st.markdown("**The rate is not the same everywhere: big cities and overseas departments are often at the top.**")
+    st.header("Chapter 2 · Not the same story everywhere")
+    st.markdown(
+        f"**In {end}, {top_region['region']} has the highest rate of {indicator} "
+        f"({top_region['rate']:.2f} {label}), against {france_rate:.2f} for all of France.**"
+    )
 
     st.subheader("Compare regions")
     bar_chart(
-        by_region(data, end),
+        region_rates,
         "rate",
         "region",
         f"Rate {label}",
@@ -25,6 +34,13 @@ def show(df, geo, indicator, years, regions):
     )
 
     st.subheader("Map view")
+    if bottom["rate"] > 0:
+        st.markdown(
+            f"**At department level, {top['department']} ({top['rate']:.2f}) has "
+            f"{top['rate'] / bottom['rate']:.1f} times the rate of {bottom['department']} ({bottom['rate']:.2f}).**"
+        )
+    else:
+        st.markdown(f"**At department level, {top['department']} has the highest rate ({top['rate']:.2f}).**")
     map_chart(
         departments,
         geo,
@@ -59,3 +75,5 @@ def show(df, geo, indicator, years, regions):
             f"Bar chart of the {n} departments with the lowest rate of {indicator} in {end}.",
             height=400,
         )
+
+    st.markdown("*Before drawing conclusions, one question remains: can we trust these numbers? →*")

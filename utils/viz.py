@@ -10,13 +10,48 @@ CATEGORY_COLORS = {
 }
 
 
+EVENTS = [
+    (2017.8, "#MeToo", 1.0),
+    (2019.7, "Domestic violence Grenelle", 0.9),
+    (2020.2, "1st lockdown", 0.8),
+    (2020.7, "Fixed fine for drug use", 0.7),
+]
+
+
 def show(fig, alt_text):
     fig.update_layout(margin=dict(t=50), font=dict(size=14))
     st.plotly_chart(fig, width="stretch")
     st.caption(alt_text)
 
 
-def line_chart(df, rate_label, title, alt_text):
+def add_events(fig, years):
+    for x, text, y in EVENTS:
+        if years[0] < x < years[1]:
+            fig.add_vline(x=x, line_dash="dot", line_color="grey")
+            fig.add_annotation(x=x, y=y, yref="paper", text=text, showarrow=False, xanchor="left", font=dict(size=12))
+
+
+def scissor_chart(df, years, alt_text):
+    fig = px.line(
+        df,
+        x="year",
+        y="index",
+        color="category",
+        markers=True,
+        title=f"Recorded cases by category ({years[0]} = 100)",
+        labels={"year": "Year", "index": f"Index ({years[0]} = 100)", "category": "Category", "count": "Recorded cases"},
+        hover_data={"count": ":,", "index": ":.0f"},
+        color_discrete_map=CATEGORY_COLORS,
+        height=500,
+    )
+    fig.add_hline(y=100, line_dash="dash", line_color="grey")
+    add_events(fig, years)
+    fig.update_xaxes(dtick=1)
+    fig.update_layout(legend=dict(orientation="h", y=-0.2))
+    show(fig, alt_text)
+
+
+def line_chart(df, years, rate_label, title, alt_text):
     fig = px.line(
         df,
         x="year",
@@ -27,9 +62,7 @@ def line_chart(df, rate_label, title, alt_text):
         hover_data={"count": ":,"},
         color_discrete_sequence=[MAIN_COLOR],
     )
-    if df["year"].min() <= 2020 <= df["year"].max():
-        fig.add_vrect(x0=2019.5, x1=2020.5, fillcolor="grey", opacity=0.2, line_width=0)
-        fig.add_annotation(x=2020, y=df["rate"].max(), text="COVID-19 lockdowns", showarrow=False, yshift=10)
+    add_events(fig, years)
     fig.update_yaxes(rangemode="tozero")
     fig.update_xaxes(dtick=1)
     show(fig, alt_text)
