@@ -136,4 +136,4 @@ The app opens on http://localhost:8501. No sampling or randomness is used, so th
 
 - Deployed app: https://recorded-crime-france.streamlit.app
 - GitHub repository: https://github.com/Neithennn/recorded-crime-france-dashboard
-- Demo video: *to add*
+- Demo video: https://youtu.be/chR_TN88MDo
