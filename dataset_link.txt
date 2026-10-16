@@ -1,0 +1,15 @@
+Dataset: Bases statistiques communale, départementale et régionale de la délinquance enregistrée par la police et la gendarmerie nationales
+Producer: SSMSI (Service statistique ministériel de la sécurité intérieure)
+Portal: data.gouv.fr
+License: Licence Ouverte / Open Licence v2.0
+
+Dataset page:
+https://www.data.gouv.fr/datasets/bases-statistiques-communale-departementale-et-regionale-de-la-delinquance-enregistree-par-la-police-et-la-gendarmerie-nationales
+
+File used (DEP - departmental file, July 2026 edition, 2016-2025):
+https://static.data.gouv.fr/resources/bases-statistiques-communale-departementale-et-regionale-de-la-delinquance-enregistree-par-la-police-et-la-gendarmerie-nationales/20260709-120038/donnee-dep-data.gouv-2025-geographie2026-produit-le2026-06-25.csv
+
+Department boundaries for the map (GeoJSON):
+https://github.com/gregoiredavid/france-geojson (departements-version-simplifiee.geojson)
+
+A copy of both files is in the data/ folder.
