@@ -1,7 +1,19 @@
 # Fewer Thefts, More Violence: How Crime Changed in France (2016–2025)
 
-Individual Student Project – Streamlit Dashboard (EFREI Paris, 2026)
-Author: **Nathan CHEVAUCHE**
+<img src="assets/efrei_logo.png" alt="EFREI logo" width="220">
+
+Individual Student Project – Streamlit Dashboard
+
+| | |
+|---|---|
+| **Student** | Nathan CHEVAUCHE |
+| **Email** | nathan.chevauche@efrei.net |
+| **Program** | PGE – Data Engineering |
+| **Year** | M1 – 2026-2027 |
+| **LinkedIn** | [nathan-chevauché](https://www.linkedin.com/in/nathan-chevauch%C3%A9/) |
+| **GitHub** | [Neithennn](https://github.com/Neithennn) |
+| **Course** | ST2DVZ-2627PSA01 - Data Analysis & Visualization |
+| **Professor** | Mano Joseph MATHEW – mano.mathew@efrei.fr |
 
 #EFREIDataStories2026
 
@@ -80,6 +92,7 @@ All links are in `dataset_link.txt`. A copy of the files is in `data/`. If the f
 ```
 app.py                  main page, sidebar filters
 sections/
+  header.py             EFREI logo, student, course and professor
   intro.py              hook, roadmap, context, audience, caveats
   overview.py           chapter 1: scissor chart, change by indicator, KPIs, zoom
   deep_dives.py         chapter 2: regions, map, top / bottom 10 departments
@@ -89,6 +102,7 @@ utils/
   prep.py               cleaning, validation, aggregations
   viz.py                chart functions with a consistent style
 data/                   cached CSV and GeoJSON
+assets/                 EFREI logo
 requirements.txt
 dataset_link.txt
 ```

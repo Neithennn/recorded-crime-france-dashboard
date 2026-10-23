@@ -1,6 +1,6 @@
 import streamlit as st
 
-from sections import conclusions, deep_dives, intro, overview
+from sections import conclusions, deep_dives, header, intro, overview
 from utils.io import LICENSE, PORTAL, SOURCE, load_data, load_geojson
 from utils.prep import make_tables
 
@@ -15,6 +15,7 @@ def get_data():
     return df_raw, tables, geo
 
 
+header.show()
 st.title("Fewer Thefts, More Violence: How Crime Changed in France (2016–2025)")
 st.caption(f"Source: {SOURCE} — {PORTAL} — {LICENSE}")
 
