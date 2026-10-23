@@ -1,6 +1,8 @@
 import plotly.express as px
 import streamlit as st
 
+from utils.lang import t
+
 MAIN_COLOR = "#2e86c1"
 CATEGORY_COLORS = {
     "Crimes against people": "#e74c3c",
@@ -11,10 +13,10 @@ CATEGORY_COLORS = {
 
 
 EVENTS = [
-    (2017.8, "#MeToo", 1.0),
-    (2019.7, "Domestic violence Grenelle", 0.9),
-    (2020.2, "1st lockdown", 0.8),
-    (2020.7, "Fixed fine for drug use", 0.7),
+    (2017.8, "ev_metoo", 1.0),
+    (2019.7, "ev_grenelle", 0.9),
+    (2020.2, "ev_lockdown", 0.8),
+    (2020.7, "ev_afd", 0.7),
 ]
 
 
@@ -25,23 +27,36 @@ def show(fig, alt_text):
 
 
 def add_events(fig, years):
-    for x, text, y in EVENTS:
+    for x, key, y in EVENTS:
         if years[0] < x < years[1]:
             fig.add_vline(x=x, line_dash="dot", line_color="grey")
-            fig.add_annotation(x=x, y=y, yref="paper", text=text, showarrow=False, xanchor="left", font=dict(size=12))
+            fig.add_annotation(x=x, y=y, yref="paper", text=t(key), showarrow=False, xanchor="left", font=dict(size=12))
+
+
+def translate_categories(df):
+    return df.assign(category=df["category"].map(lambda c: t(c)))
+
+
+def category_colors():
+    return {t(k): v for k, v in CATEGORY_COLORS.items()}
 
 
 def scissor_chart(df, years, alt_text):
     fig = px.line(
-        df,
+        translate_categories(df),
         x="year",
         y="index",
         color="category",
         markers=True,
-        title=f"Recorded cases by category ({years[0]} = 100)",
-        labels={"year": "Year", "index": f"Index ({years[0]} = 100)", "category": "Category", "count": "Recorded cases"},
+        title=t("scissor_title", start=years[0]),
+        labels={
+            "year": t("year_axis"),
+            "index": t("index_axis", start=years[0]),
+            "category": t("category"),
+            "count": t("cases"),
+        },
         hover_data={"count": ":,", "index": ":.0f"},
-        color_discrete_map=CATEGORY_COLORS,
+        color_discrete_map=category_colors(),
         height=500,
     )
     fig.add_hline(y=100, line_dash="dash", line_color="grey")
@@ -58,7 +73,7 @@ def line_chart(df, years, rate_label, title, alt_text):
         y="rate",
         markers=True,
         title=title,
-        labels={"year": "Year", "rate": rate_label, "count": "Recorded cases"},
+        labels={"year": t("year_axis"), "rate": rate_label, "count": t("cases")},
         hover_data={"count": ":,"},
         color_discrete_sequence=[MAIN_COLOR],
     )
@@ -70,14 +85,14 @@ def line_chart(df, years, rate_label, title, alt_text):
 
 def change_chart(df, start_year, end_year, alt_text):
     fig = px.bar(
-        df,
+        translate_categories(df),
         x="change",
         y="indicator",
         color="category",
         orientation="h",
-        title=f"Change in recorded cases, {start_year} → {end_year}",
-        labels={"change": "Change (%)", "indicator": "Indicator", "category": "Category"},
-        color_discrete_map=CATEGORY_COLORS,
+        title=t("change_title", start=start_year, end=end_year),
+        labels={"change": t("change_axis"), "indicator": t("indicator_axis"), "category": t("category")},
+        color_discrete_map=category_colors(),
         height=550,
     )
     fig.add_vline(x=0, line_color="grey")
@@ -113,7 +128,7 @@ def map_chart(df, geo, rate_label, title, alt_text):
         color_continuous_scale="OrRd",
         hover_name="department",
         hover_data={"dep_code": False, "region": True, "rate": ":.2f", "count": ":,"},
-        labels={"rate": rate_label, "count": "Recorded cases", "region": "Region"},
+        labels={"rate": rate_label, "count": t("cases"), "region": t("region_axis")},
         title=title,
         height=600,
     )

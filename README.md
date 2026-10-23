@@ -77,6 +77,7 @@ All links are in `dataset_link.txt`. A copy of the files is in `data/`. If the f
 
 ## App features
 
+- **Language switch** in the sidebar: all the texts of the app are available in English and in French (crime and region names stay as in the French dataset).
 - **Sidebar filters:** indicator, year range, regions.
 - **KPI header** under the title, linked to the filters: recorded cases, rate per 1,000, department with the highest rate.
 - **Help texts** on the filters and KPIs to explain units and definitions.
@@ -100,6 +101,7 @@ sections/
 utils/
   io.py                 load_data(), fetch_and_cache(), source and license
   prep.py               cleaning, validation, aggregations
+  lang.py               English and French texts of the app
   viz.py                chart functions with a consistent style
 data/                   cached CSV and GeoJSON
 assets/                 EFREI logo

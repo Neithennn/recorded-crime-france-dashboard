@@ -1,4 +1,4 @@
-import pandas as pd
+from utils.lang import t
 
 REGIONS = {
     "01": "Guadeloupe",
@@ -64,27 +64,14 @@ def quality_report(df_raw):
     population_year = df_raw.groupby("annee")["insee_pop_millesime"].max()
     old_population = population_year[population_year < population_year.index].index
 
-    checks = pd.DataFrame(
-        {
-            "Check": [
-                "Rows = departments x indicators x years",
-                "No negative counts",
-                "Rate per 1,000 matches count / population",
-                "Drug use = AFD + non-AFD",
-            ],
-            "Result": [
-                f"{len(df_raw)} / {expected_rows}",
-                str((df_raw["nombre"] < 0).sum() == 0),
-                f"max error = {rate_error:.6f}",
-                f"max gap = {drugs_gap:.0f}",
-            ],
-        }
-    )
-
     return {
-        "missing": df_raw.isna().sum().rename("Missing values").to_frame(),
+        "missing": df_raw.isna().sum(),
         "duplicates": int(df_raw.duplicated().sum()),
-        "checks": checks,
+        "rows": len(df_raw),
+        "expected_rows": expected_rows,
+        "no_negative": bool((df_raw["nombre"] < 0).sum() == 0),
+        "rate_error": rate_error,
+        "drugs_gap": drugs_gap,
         "old_population": sorted(old_population.tolist()),
     }
 
@@ -122,8 +109,8 @@ def make_tables(df_raw, geo):
 
 def rate_label(indicator):
     if indicator == HOUSING_INDICATOR:
-        return "per 1,000 homes"
-    return "per 1,000 inhabitants"
+        return t("per_homes")
+    return t("per_inhabitants")
 
 
 def filter_data(df, years, regions, indicator=None):

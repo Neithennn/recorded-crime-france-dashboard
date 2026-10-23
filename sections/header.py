@@ -2,6 +2,8 @@ from pathlib import Path
 
 import streamlit as st
 
+from utils.lang import t
+
 LOGO = Path(__file__).resolve().parent.parent / "assets" / "efrei_logo.png"
 
 
@@ -12,9 +14,9 @@ def show():
     with c2:
         st.markdown(
             "**Nathan CHEVAUCHE** · nathan.chevauche@efrei.net  \n"
-            "**Program:** PGE – Data Engineering · **Year:** M1 – 2026-2027  \n"
+            f"**{t('program')}:** PGE – Data Engineering · **{t('year')}:** M1 – 2026-2027  \n"
             "[LinkedIn](https://www.linkedin.com/in/nathan-chevauch%C3%A9/) · [GitHub](https://github.com/Neithennn)  \n"
-            "**Course:** ST2DVZ-2627PSA01 - Data Analysis & Visualization  \n"
-            "**Professor:** Mano Joseph MATHEW · mano.mathew@efrei.fr"
+            f"**{t('course')}:** ST2DVZ-2627PSA01 - Data Analysis & Visualization  \n"
+            f"**{t('professor')}:** Mano Joseph MATHEW · mano.mathew@efrei.fr"
         )
     st.divider()

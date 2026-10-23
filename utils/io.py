@@ -15,6 +15,7 @@ GEO_URL = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master
 
 SOURCE = "Bases statistiques de la délinquance enregistrée par la police et la gendarmerie nationales (SSMSI)"
 PORTAL = "data.gouv.fr"
+DATASET_PAGE = "https://www.data.gouv.fr/datasets/bases-statistiques-communale-departementale-et-regionale-de-la-delinquance-enregistree-par-la-police-et-la-gendarmerie-nationales"
 LICENSE = "Licence Ouverte / Open Licence v2.0"
 
 
